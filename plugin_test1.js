@@ -3,7 +3,7 @@
 * @author Martin Mädler
 * @copyright 
 * @license Apache-2.0
-* @version v0.0.3
+* @version v0.0.4
 */
 
 "use strict";
@@ -34,7 +34,7 @@ module.exports.plugin_test1 = function (parent) {
                 const fs = require('fs');
                 const https = require('https');
                 var downloadSize = 0;
-                const req = https.request(u, options, function (res) {
+                const req1 = https.request(u, options, function (res) {
                     if (res.statusCode != 200) {
                         console.log('Download error, statusCode: ' + res.statusCode);
                         process.exit(1);
@@ -55,8 +55,8 @@ module.exports.plugin_test1 = function (parent) {
                         });
                     }
                 })
-                req.on('error', function (error) { console.error(error); process.exit(1); })
-                req.end();
+                req1.on('error', function (error) { console.error(error); process.exit(1); })
+                req1.end();
 
                 // #########
                 res.set({ 'Content-Type': 'application/json' });
