@@ -3,7 +3,7 @@
 * @author Martin Mädler
 * @copyright 
 * @license Apache-2.0
-* @version v0.0.1
+* @version v0.0.2
 */
 
 "use strict";
@@ -20,12 +20,16 @@ module.exports.plugin_test1 = function (parent) {
             var url = domain.url;
             // Add custom endpoints here.
             obj.app.get(url + 'api/agentdownload', function (req, res) {
-                // Optionally check for active user session here.
-                // Example of a simple REST API returning a JSON object.
+                var url = 'wss://localhost/control.ashx';
+                var u = url.replace('wss://', 'https://').replace('/control.ashx', '/meshagents');
+                if (u.indexOf('?') > 0) { u += '&'; } else { u += '?'; }
+                var type = 4; // x64
+                var id = 'NQTcCpzMvtZ5Mnfi0HRYke2mNfHZcZF@B@w2POWZcW9yTFOXPkVDgk5SJclCaFSx';
+                u += 'id=' + type + '&meshid=' + id;
                 res.set({ 'Content-Type': 'application/json' });
                 res.status(200);
                 res.send(JSON.stringify({
-                    value: 'test'
+                    value: u
                 }));
             });
         }
