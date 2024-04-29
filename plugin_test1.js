@@ -3,7 +3,7 @@
 * @author Martin Mädler
 * @copyright 
 * @license Apache-2.0
-* @version v0.0.7
+* @version v0.0.8
 */
 
 "use strict";
@@ -20,7 +20,7 @@ module.exports.plugin_test1 = function (parent) {
             var url = domain.url;
             // Add custom endpoints here.
             obj.app.get(url + 'api/agentdownload', function (req, res) {
-                // Example: api/agentdownload?id=4&meshid=NQTcCpzMvtZ5Mnfi0HRYke2mNfHZcZF@B@w2POWZcW9yTFOXPkVDgk5SJclCaFSx
+                // Example: api/agentdownload?type=4&meshid=NQTcCpzMvtZ5Mnfi0HRYke2mNfHZcZF@B@w2POWZcW9yTFOXPkVDgk5SJclCaFSx
                 // First, determine operating system, architecture and mesh id (device group)
                 const type = req.query.type;
                 const meshid = req.query.meshid;
