@@ -3,7 +3,7 @@
 * @author Martin Mädler
 * @copyright 
 * @license Apache-2.0
-* @version v0.0.10
+* @version v0.0.11
 */
 
 "use strict";
@@ -45,11 +45,12 @@ module.exports.plugin_test1 = function (parent) {
                         if (!fs.existsSync(tempPath)){
                             fs.mkdirSync(tempPath, { recursive: true });
                         }
-                        const filename = tempPath + 'meshagent.exe';
+                        const filename = tempPath + '/meshagent.exe';
                         // Check if this file already exists
                         if (fs.existsSync(filename)) {
                             // File already exists
                             sendInternalServerError(res, 'api/agentdownload');
+                            return;
                         }
                         // Open the file for writing
                         let fileDescriptor = fs.openSync(filename, 'w');
