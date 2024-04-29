@@ -3,7 +3,7 @@
 * @author Martin Mädler
 * @copyright 
 * @license Apache-2.0
-* @version v0.0.6
+* @version v0.0.7
 */
 
 "use strict";
@@ -24,7 +24,7 @@ module.exports.plugin_test1 = function (parent) {
                 // First, determine operating system, architecture and mesh id (device group)
                 const type = req.query.type;
                 const meshid = req.query.meshid;
-                if (type !== 4 && type !== 3) {
+                if (type !== '4' && type !== '3') {
                     // We only support Windows!
                     sendBadRequest(res, 'api/agentdownload');
                     return;
