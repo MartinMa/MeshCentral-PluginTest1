@@ -3,7 +3,7 @@
 * @author Martin Mädler
 * @copyright 
 * @license Apache-2.0
-* @version v0.0.9
+* @version v0.0.10
 */
 
 "use strict";
@@ -40,15 +40,19 @@ module.exports.plugin_test1 = function (parent) {
                     if (downloadRes.statusCode != 200) {
                         sendInternalServerError(res, 'api/agentdownload');
                     } else {
-                        // Agent filename
-                        var tempPath = `./meshcentral-data/temp/meshagent.exe`;
+                        // Agent temp path
+                        const tempPath = `./meshcentral-data/temp`;
+                        if (!fs.existsSync(tempPath)){
+                            fs.mkdirSync(tempPath, { recursive: true });
+                        }
+                        const filename = tempPath + 'meshagent.exe';
                         // Check if this file already exists
-                        if (fs.existsSync(tempPath)) {
+                        if (fs.existsSync(filename)) {
                             // File already exists
                             sendInternalServerError(res, 'api/agentdownload');
                         }
                         // Open the file for writing
-                        let fileDescriptor = fs.openSync(tempPath, 'w');
+                        let fileDescriptor = fs.openSync(filename, 'w');
                         downloadRes.on('data', function (chunck) {
                             // Save to file
                             fs.writeSync(fileDescriptor, chunck);
@@ -59,6 +63,13 @@ module.exports.plugin_test1 = function (parent) {
                             // Third, call setup script
                             const arch = type === 4 ? 'x64' : 'x86';
                             // TODO
+
+                            // Prepare response
+                            res.set({ 'Content-Type': 'application/json' });
+                            res.status(200);
+                            res.send(JSON.stringify({
+                                value: downloadUrl
+                            }));
                         });
                     }
                 })
@@ -67,13 +78,6 @@ module.exports.plugin_test1 = function (parent) {
                     return;
                 });
                 downloadReq.end();
-
-                // Prepare response
-                res.set({ 'Content-Type': 'application/json' });
-                res.status(200);
-                res.send(JSON.stringify({
-                    value: downloadUrl
-                }));
             });
         }
     }
