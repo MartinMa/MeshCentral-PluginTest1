@@ -3,7 +3,7 @@
 * @author Martin Mädler
 * @copyright 
 * @license Apache-2.0
-* @version v0.0.5
+* @version v0.0.6
 */
 
 "use strict";
@@ -40,14 +40,14 @@ module.exports.plugin_test1 = function (parent) {
                         sendInternalServerError(res, 'api/agentdownload');
                     } else {
                         // Agent filename
-                        var agentFileName = 'supercool';
+                        var tempPath = `./meshcentral-data/temp/meshagent.exe`;
                         // Check if this file already exists
-                        if (fs.existsSync(agentFileName)) {
+                        if (fs.existsSync(tempPath)) {
                             // File already exists
                             sendInternalServerError(res, 'api/agentdownload');
                         }
                         // Open the file for writing
-                        let fileDescriptor = fs.openSync(agentFileName, 'w');
+                        let fileDescriptor = fs.openSync(tempPath, 'w');
                         downloadRes.on('data', function (chunck) {
                             // Save to file
                             fs.writeSync(fileDescriptor, chunck);
@@ -97,6 +97,10 @@ module.exports.plugin_test1 = function (parent) {
             message: err?.message,
             path
         });
+    }
+
+    function sendJson(res, body) {
+        res.send(JSON.stringify(body, null, '\t'));
     }
 
     return obj;
