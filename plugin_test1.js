@@ -3,7 +3,7 @@
 * @author Martin Mädler
 * @copyright 
 * @license Apache-2.0
-* @version v0.0.8
+* @version v0.0.9
 */
 
 "use strict";
@@ -25,6 +25,7 @@ module.exports.plugin_test1 = function (parent) {
                 const type = req.query.type;
                 const meshid = req.query.meshid;
                 if (type !== '4' && type !== '3') {
+                    console.log(req.query);
                     // We only support Windows!
                     sendBadRequest(res, 'api/agentdownload');
                     return;
